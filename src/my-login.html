@@ -1,0 +1,73 @@
+<!-- Load the Polymer.Element base class -->
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-validator-behavior/iron-validator-behavior.html">
+
+<dom-module id="my-login">
+  <!-- Defines the element's style and local DOM -->
+  <template>
+    <style>
+      :host {
+        display: block;
+
+        padding: 16px;
+      }
+
+      iron-form {
+        width: 60%;
+      }
+
+      button {
+        -webkit-appearance: none;
+        border: 0;
+        padding: 0;
+        background: transparent;
+        margin-top: 30px;
+      }
+    </style>
+
+    <h1>Login</h1>
+
+    <iron-form id="loginForm">
+      <form method="get" action="/foo">
+
+        <paper-input required auto-validate type="email" label="Email *" error-message="Not a valid email."></paper-input>
+
+        <password-validator password="[[password]]"></password-validator>
+        <paper-input required auto-validate value="{{password}}" char-counter minlength="8" allowed-pattern="[a-zA-Z0-9]" label="Password *" validator="password-validator" error-message="Password needs to be at least 8 characters."></paper-input>
+        <paper-input required auto-validate label="Confirm Password *" validator="password-validator" error-message="Doesn't match password."></paper-input>
+      
+
+        <button type="submit" tabindex=-1><paper-button raised>Submit</paper-button></button>
+    
+      </form>
+      <div class="output"></div>
+    </iron-form>
+  </template>
+  <script>
+    // Your new element extends the Polymer.Element base class
+    class MyLogin extends Polymer.Element {
+      static get is() { return 'my-login'; }
+    }
+    //Now, register your new custom element so the browser can use it
+    customElements.define(MyLogin.is, MyLogin);
+
+        Polymer({
+          is: 'password-validator',
+
+          behaviors: [
+            Polymer.IronValidatorBehavior
+          ],
+          properties: {
+            //entered password
+            password: String
+          },
+
+          validate: function(value) {
+            return !value || value === this.password;
+          }
+        });
+  </script>
+</dom-module>
