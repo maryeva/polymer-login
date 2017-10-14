@@ -1,4 +1,4 @@
-#polymer-login#
+# polymer-login
 
 Polymer Starter Kit (required)
 
